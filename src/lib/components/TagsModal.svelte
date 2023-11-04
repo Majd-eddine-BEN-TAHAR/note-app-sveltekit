@@ -6,7 +6,7 @@
 	function handleChange(e, tagValue) {
 		storedData.update((currentData) => ({
 			...currentData,
-			TAGS: $storedData.TAGS.map((tag) =>
+			TAGS: currentData.TAGS.map((tag) =>
 				tag.value === tagValue ? { ...tag, label: e.srcElement.value } : tag
 			)
 		}));
@@ -14,8 +14,11 @@
 
 	function handleDelete(tagValue) {
 		storedData.update((currentData) => ({
-			...currentData,
-			TAGS: $storedData.TAGS.filter((tag) => tag.value !== tagValue)
+			NOTES: currentData.NOTES.map((note) => ({
+				...note,
+				tagIds: note.tagIds.filter((tag) => tag !== tagValue)
+			})),
+			TAGS: currentData.TAGS.filter((tag) => tag.value !== tagValue)
 		}));
 	}
 </script>
