@@ -2,8 +2,6 @@
 	import type { Note } from '../../app';
 
 	export let note: Note;
-
-	import { todo } from '$lib/todo';
 </script>
 
 <div
@@ -17,6 +15,5 @@
 		{#each note.tags as tag}
 			<div class="badge badge-primary badge-outline mr-2">#{tag.label}</div>
 		{/each}
-		<p>{$todo?.title}</p>
 	</a>
 </div>

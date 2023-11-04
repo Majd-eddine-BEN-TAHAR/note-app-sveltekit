@@ -2,9 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { storedData } from '$lib/useLocalStorage';
-	// import SvelteMarkdown from 'svelte-markdown';
-	// import DOMPurify from 'dompurify';
-	// console.log(DOMPurify.sanitize(marked.parse(singleNote.markdown)));
 	import { marked } from 'marked';
 	import { DeleteModal } from '$lib/components';
 
@@ -51,6 +48,5 @@
 </div>
 
 <div class="prose lg:prose-xl mx-auto">
-	<!-- <SvelteMarkdown source={singleNote.markdown} /> -->
 	{@html marked.parse(singleNote.markdown)}
 </div>

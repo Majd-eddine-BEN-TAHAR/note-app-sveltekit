@@ -4,7 +4,7 @@
 	import { storedData } from '$lib/useLocalStorage';
 	import Select from 'svelte-select';
 	import type { NoteData, Tag } from '../../app';
-	import SelectInput from './SelectInput.svelte';
+	// import SelectInput from './SelectInput.svelte';
 
 	export let title: string = '';
 	export let markdown: string = '';

@@ -36,12 +36,8 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/rubik": "^5.0.17",
-		"dompurify": "^3.0.6",
 		"marked": "^9.1.5",
-		"mdsvex": "^0.11.0",
-		"svelte-markdown": "^0.4.0",
 		"svelte-persisted-store": "^0.7.0",
-		"svelte-select": "^5.7.0",
-		"uuid": "^9.0.1"
+		"svelte-select": "^5.7.0"
 	}
 }
