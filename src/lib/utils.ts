@@ -3,7 +3,7 @@ import { browser } from '$app/environment';
 export function loadDummyDataToStart() {
 	if (browser) {
 		const data = JSON.parse(localStorage.getItem('storedData'));
-		if (data.NOTES.length === 0) {
+		if (!data || data.NOTES.length === 0) {
 			localStorage.setItem(
 				'storedData',
 				JSON.stringify({
