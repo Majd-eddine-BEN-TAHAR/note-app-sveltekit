@@ -15,6 +15,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{singleNote?.title ?? 'Single note'}</title>
+</svelte:head>
 {#if singleNote}
 	<SingleNote {singleNote} />
 {:else}

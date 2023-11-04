@@ -39,6 +39,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Notes App</title>
+</svelte:head>
 <TagsModal bind:modalRef />
 <nav class="flex items-center justify-between">
 	<h1 class="text-6xl">Notes</h1>
