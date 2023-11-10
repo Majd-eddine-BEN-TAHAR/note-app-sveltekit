@@ -1,13 +1,12 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { storedData } from '$lib/useLocalStorage';
+	import { storedData } from '$lib/useLocalStorage.js';
 	import { marked } from 'marked';
 	import { DeleteModal } from '$lib/components';
-	import type { Note } from '../../app';
 
-	export let singleNote: Note | null = null;
-	let modalRef: HTMLDialogElement;
+	export let singleNote = null;
+	let modalRef;
 
 	function handleDelete() {
 		$storedData.NOTES = $storedData.NOTES.filter((note) => note.value !== $page.params.id);

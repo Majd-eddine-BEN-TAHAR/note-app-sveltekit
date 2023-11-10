@@ -1,14 +1,9 @@
-<script lang="ts">
+<script>
 	import { page } from '$app/stores';
 	import { NoteForm } from '$lib/components';
-	import { storedData } from '$lib/useLocalStorage';
-	import type { Note } from './../../../app';
+	import { storedData } from '$lib/useLocalStorage.js';
 
-	let selectedNote: Note | undefined = $storedData.NOTES.find(
-		(note) => note.value === $page.params.id
-	);
-
-	// $storedData.TAGS.filter((tag) => selectedNote?.tagIds?.includes(tag.value))
+	let selectedNote = $storedData.NOTES.find((note) => note.value === $page.params.id);
 </script>
 
 <NoteForm

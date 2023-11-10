@@ -1,12 +1,9 @@
-<script lang="ts">
+<script>
 	import { page } from '$app/stores';
 	import { Error, SingleNote } from '$lib/components';
-	import { storedData } from '$lib/useLocalStorage';
-	import type { Note } from '../../app';
+	import { storedData } from '$lib/useLocalStorage.js';
 
-	let singleNote: Note | undefined = $storedData.NOTES.find(
-		(note) => note.value === $page.params.id
-	);
+	let singleNote = $storedData.NOTES.find((note) => note.value === $page.params.id);
 
 	$: if (singleNote) {
 		singleNote = {

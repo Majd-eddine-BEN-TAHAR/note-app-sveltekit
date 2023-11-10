@@ -1,16 +1,15 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { storedData } from '$lib/useLocalStorage';
-	import type { NoteData, Tag } from '../../app';
+	import { storedData } from '$lib/useLocalStorage.js';
 	import SelectInput from './SelectInput.svelte';
 
-	export let title: string = '';
-	export let markdown: string = '';
-	export let selectedTags: Tag[] | null = [];
-	export let isEditing: boolean = false;
+	export let title = '';
+	export let markdown = '';
+	export let selectedTags = [];
+	export let isEditing = false;
 
-	function onSubmit(noteData: NoteData): void {
+	function onSubmit(noteData) {
 		const { isEditing, tags, title, markdown } = noteData;
 		if (isEditing) {
 			const noteId = $page.params.id;
@@ -23,7 +22,7 @@
 		goto(route);
 	}
 
-	function addNewNote(title: string, markdown: string, tags: Tag[]): void {
+	function addNewNote(title, markdown, tags) {
 		$storedData.NOTES = [
 			...$storedData.NOTES,
 			{
@@ -35,22 +34,7 @@
 		];
 	}
 
-	// function updateNote(id: string, tags: Tag[], title: string, markdown: string): void {
-	// 	let noteToEdit = $storedData.NOTES.find((note) => note.value === id);
-
-	// 	noteToEdit = {
-	// 		...noteToEdit,
-	// 		title,
-	// 		markdown,
-	// 		tagIds: tags?.map((tag) => tag.value) || []
-	// 	};
-
-	// 	$storedData.NOTES = $storedData.NOTES.map((note) =>
-	// 		note.value === $page.params.id ? noteToEdit : note
-	// 	);
-	// }
-
-	function updateNote(id: string, tags: Tag[], title: string, markdown: string): void {
+	function updateNote(id, tags, title, markdown) {
 		const noteToEditIndex = $storedData.NOTES.findIndex((note) => note.value === id);
 
 		if (noteToEditIndex !== -1) {
@@ -85,7 +69,6 @@
 				required
 				bind:value={title}
 			/>
-			<!-- h-full -->
 		</div>
 		<div class="form-control w-full">
 			<label class="label" for="label-tags">

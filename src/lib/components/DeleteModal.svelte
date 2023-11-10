@@ -1,8 +1,6 @@
-<script lang="ts">
-	import type { MouseEventHandler } from 'svelte/elements';
-
-	export let modalRef: HTMLDialogElement;
-	export let handleClick: MouseEventHandler<HTMLButtonElement>;
+<script>
+	export let modalRef;
+	export let handleClick;
 </script>
 
 <dialog bind:this={modalRef} class="modal">

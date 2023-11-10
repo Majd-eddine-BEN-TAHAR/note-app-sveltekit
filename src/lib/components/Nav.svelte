@@ -1,7 +1,7 @@
-<script lang="ts">
-	export let modalRef: HTMLDialogElement;
+<script>
+	export let modalRef;
 
-	function openModal(): void {
+	function openModal() {
 		modalRef.showModal();
 	}
 </script>

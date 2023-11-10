@@ -1,8 +1,8 @@
-<script lang="ts">
+<script>
 	import '../app.css';
 	import '@fontsource/rubik';
 	import '@fontsource/rubik/500.css';
-	import { loadDummyDataToStart } from '$lib/utils';
+	import { loadDummyDataToStart } from '$lib/utils.js';
 
 	loadDummyDataToStart();
 </script>

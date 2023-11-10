@@ -1,11 +1,10 @@
-<script lang="ts">
-	import { storedData } from '$lib/useLocalStorage';
+<script>
+	import { storedData } from '$lib/useLocalStorage.js';
 	import Select from 'svelte-select/Select.svelte';
-	import type { Tag } from '../../app';
 
-	export let title: string = '';
-	export let selectedTags: Tag[] | null = [];
-	export let handleFilter: (e: Event) => void;
+	export let title = '';
+	export let selectedTags = [];
+	export let handleFilter;
 </script>
 
 <form on:submit|preventDefault class="flex flex-col items-center w-full">

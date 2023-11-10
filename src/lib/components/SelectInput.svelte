@@ -1,16 +1,15 @@
-<script lang="ts">
-	import { storedData } from '$lib/useLocalStorage';
+<script>
+	import { storedData } from '$lib/useLocalStorage.js';
 	import Select from 'svelte-select/Select.svelte';
-	import type { Tag } from '../../app';
 
-	export let id: string;
-	export let selectedTags: Tag[] | null = [];
-	let filterText: string;
+	export let id;
+	export let selectedTags = [];
+	let filterText;
 
-	function handleFilter(e: any) {
-		if (selectedTags?.find((tag: Tag) => tag.label === filterText)) return;
+	function handleFilter(e) {
+		if (selectedTags?.find((tag) => tag.label === filterText)) return;
 		if (e.detail.length === 0 && filterText.length > 0) {
-			const prev = $storedData.TAGS.filter((tag: any) => !tag.created);
+			const prev = $storedData.TAGS.filter((tag) => !tag.created);
 			$storedData.TAGS = [
 				...prev,
 				{ value: crypto.randomUUID(), label: filterText, created: true }
@@ -18,7 +17,7 @@
 		}
 	}
 
-	function handleChange(e: any) {
+	function handleChange(e) {
 		const [createdUsingFilter] = $storedData.TAGS.filter((tag) => tag.hasOwnProperty('created'));
 		if (createdUsingFilter) {
 			const isExistInSelected = e.detail.filter((tag) => tag.value === createdUsingFilter.value);

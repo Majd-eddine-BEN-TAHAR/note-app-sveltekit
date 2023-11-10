@@ -1,19 +1,18 @@
-<script lang="ts">
+<script>
 	import { NoteCard, TagsModal, NoteFilterForm, Nav } from '$lib/components';
-	import { storedData } from '$lib/useLocalStorage';
-	import type { Tag, Note } from '../app';
+	import { storedData } from '$lib/useLocalStorage.js';
 
-	let title: string = '';
-	let selectedTags: Tag[] | null = [];
-	let notesWithTags: Note[] | null = [];
-	let filtredNotes: Note[] | null = [];
-	let modalRef: HTMLDialogElement;
+	let title = '';
+	let selectedTags = [];
+	let notesWithTags = [];
+	let filtredNotes = [];
+	let modalRef;
 
 	$: filtredNotes = notesWithTags;
 	$: title, handleFilter();
 	$: selectedTags, handleFilter();
 
-	$: notesWithTags = $storedData.NOTES.map((note: Note) => ({
+	$: notesWithTags = $storedData.NOTES.map((note) => ({
 		...note,
 		tags: $storedData.TAGS.filter((tag) => note.tagIds?.includes(tag.value))
 	}));

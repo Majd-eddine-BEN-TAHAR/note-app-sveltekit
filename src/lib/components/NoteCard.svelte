@@ -1,7 +1,5 @@
-<script lang="ts">
-	import type { Note } from '../../app';
-
-	export let note: Note;
+<script>
+	export let note;
 </script>
 
 <div

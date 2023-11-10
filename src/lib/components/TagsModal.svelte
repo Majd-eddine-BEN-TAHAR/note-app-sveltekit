@@ -1,10 +1,10 @@
-<script lang="ts">
-	import { storedData } from '$lib/useLocalStorage';
+<script>
+	import { storedData } from '$lib/useLocalStorage.js';
 	import { DeleteIcon } from '$lib/components';
 
-	export let modalRef: HTMLDialogElement;
+	export let modalRef;
 
-	function handleChange(e, tagValue: string) {
+	function handleChange(e, tagValue) {
 		storedData.update((currentData) => ({
 			...currentData,
 			TAGS: currentData.TAGS.map((tag) =>
@@ -13,7 +13,7 @@
 		}));
 	}
 
-	function handleDelete(tagValue: string) {
+	function handleDelete(tagValue) {
 		storedData.update((currentData) => ({
 			NOTES: currentData.NOTES.map((note) => ({
 				...note,
