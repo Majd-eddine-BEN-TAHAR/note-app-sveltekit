@@ -1,18 +1,19 @@
 <script lang="ts">
 	import { storedData } from '$lib/useLocalStorage';
+	import { DeleteIcon } from '$lib/components';
 
-	export let modalRef;
+	export let modalRef: HTMLDialogElement;
 
-	function handleChange(e, tagValue) {
+	function handleChange(e, tagValue: string) {
 		storedData.update((currentData) => ({
 			...currentData,
 			TAGS: currentData.TAGS.map((tag) =>
-				tag.value === tagValue ? { ...tag, label: e.srcElement.value } : tag
+				tag.value === tagValue ? { ...tag, label: e.target.value } : tag
 			)
 		}));
 	}
 
-	function handleDelete(tagValue) {
+	function handleDelete(tagValue: string) {
 		storedData.update((currentData) => ({
 			NOTES: currentData.NOTES.map((note) => ({
 				...note,
@@ -42,20 +43,7 @@
 					class="bg-red-500 hover:bg-red-600 text-white font-semibold ml-4 py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
 					on:click={() => handleDelete(tag.value)}
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						class="h-6 w-6"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
+					<DeleteIcon />
 				</button>
 			</div>
 		{/each}

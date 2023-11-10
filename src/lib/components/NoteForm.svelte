@@ -2,79 +2,69 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { storedData } from '$lib/useLocalStorage';
-	import Select from 'svelte-select';
 	import type { NoteData, Tag } from '../../app';
-	// import SelectInput from './SelectInput.svelte';
+	import SelectInput from './SelectInput.svelte';
 
 	export let title: string = '';
 	export let markdown: string = '';
-	export let selectedTags: Tag[] | [] | null = [];
-	export let isEditing = false;
-	let filterText = '';
+	export let selectedTags: Tag[] | null = [];
+	export let isEditing: boolean = false;
 
-	function handleFilter(e: any) {
-		if (selectedTags?.find((tag: Tag) => tag.label === filterText)) return;
-		if (e.detail.length === 0 && filterText.length > 0) {
-			const prev = $storedData.TAGS.filter((tag: any) => !tag.created);
-			$storedData.TAGS = [
-				...prev,
-				{ value: crypto.randomUUID(), label: filterText, created: true }
-			];
-		}
-	}
-
-	function handleChange(e: any) {
-		const [createdUsingFilter] = $storedData.TAGS.filter((tag) => tag.hasOwnProperty('created'));
-		if (createdUsingFilter) {
-			const isExistInSelected = e.detail.filter((tag) => tag.value === createdUsingFilter.value);
-			if (isExistInSelected.length === 0) {
-				$storedData.TAGS = $storedData.TAGS.filter((tag) => {
-					delete tag.created;
-					return tag.value !== createdUsingFilter.value;
-				});
-			}
-		}
-		$storedData.TAGS = $storedData.TAGS.map((tag) => {
-			delete tag.created;
-			return tag;
-		});
-	}
-
-	function onSubmit({ isEditing, tags, title, markdown }: NoteData) {
+	function onSubmit(noteData: NoteData): void {
+		const { isEditing, tags, title, markdown } = noteData;
 		if (isEditing) {
-			let noteToEdit = $storedData.NOTES.find((note) => note.value === $page.params.id);
+			const noteId = $page.params.id;
+			updateNote(noteId, tags, title, markdown);
+		} else {
+			addNewNote(title, markdown, tags);
+		}
 
-			noteToEdit = {
-				...noteToEdit,
+		const route = isEditing ? `/${$page.params.id}` : '/';
+		goto(route);
+	}
+
+	function addNewNote(title: string, markdown: string, tags: Tag[]): void {
+		$storedData.NOTES = [
+			...$storedData.NOTES,
+			{
 				title,
 				markdown,
-				tagIds: tags?.map((tag) => tag.value)
+				value: crypto.randomUUID(),
+				tagIds: tags.map((tag) => tag.value)
+			}
+		];
+	}
+
+	// function updateNote(id: string, tags: Tag[], title: string, markdown: string): void {
+	// 	let noteToEdit = $storedData.NOTES.find((note) => note.value === id);
+
+	// 	noteToEdit = {
+	// 		...noteToEdit,
+	// 		title,
+	// 		markdown,
+	// 		tagIds: tags?.map((tag) => tag.value) || []
+	// 	};
+
+	// 	$storedData.NOTES = $storedData.NOTES.map((note) =>
+	// 		note.value === $page.params.id ? noteToEdit : note
+	// 	);
+	// }
+
+	function updateNote(id: string, tags: Tag[], title: string, markdown: string): void {
+		const noteToEditIndex = $storedData.NOTES.findIndex((note) => note.value === id);
+
+		if (noteToEditIndex !== -1) {
+			$storedData.NOTES[noteToEditIndex] = {
+				...$storedData.NOTES[noteToEditIndex],
+				title,
+				markdown,
+				tagIds: tags?.map((tag) => tag.value) || []
 			};
-
-			storedData.update((currentData) => ({
-				...currentData,
-				NOTES: $storedData.NOTES.map((note) => (note.value === $page.params.id ? noteToEdit : note))
-			}));
-		} else {
-			storedData.update((currentData) => ({
-				TAGS: [...currentData.TAGS],
-				NOTES: [
-					...currentData.NOTES,
-					{
-						title,
-						markdown,
-						value: crypto.randomUUID(),
-						tagIds: tags.map((tag) => tag.value)
-					}
-				]
-			}));
 		}
 
-		if (isEditing) {
-			goto(`/${$page.params.id}`);
-		} else {
-			goto('/');
-		}
+		$storedData.NOTES = $storedData.NOTES.map((note) =>
+			note.value === $page.params.id ? $storedData.NOTES[noteToEditIndex] : note
+		);
 	}
 </script>
 
@@ -102,23 +92,7 @@
 				<span class="label-text">Tags</span>
 			</label>
 			<div class="input input-bordered input-primary w-full h-full px-0">
-				<Select
-					id="label-tags"
-					inputStyles="width:100%"
-					showChevron
-					multiple
-					items={$storedData.TAGS}
-					on:change={handleChange}
-					on:filter={handleFilter}
-					bind:value={selectedTags}
-					bind:filterText
-				>
-					<div slot="item" let:item>
-						{item.created ? 'Add new: ' : ''}
-						{item.label}
-					</div>
-				</Select>
-				<!-- <SelectInput bind:selectedTags /> -->
+				<SelectInput id={'label-tags'} bind:selectedTags />
 			</div>
 		</div>
 	</div>

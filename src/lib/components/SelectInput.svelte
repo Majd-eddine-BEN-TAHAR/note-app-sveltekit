@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { storedData } from './../useLocalStorage';
+	import { storedData } from '$lib/useLocalStorage';
+	import Select from 'svelte-select/Select.svelte';
 	import type { Tag } from '../../app';
-	import Select from 'svelte-select';
 
-	export let selectedTags: Tag[] | null = null;
-	let filterText = '';
+	export let id: string;
+	export let selectedTags: Tag[] | null = [];
+	let filterText: string;
 
 	function handleFilter(e: any) {
 		if (selectedTags?.find((tag: Tag) => tag.label === filterText)) return;
@@ -36,7 +37,7 @@
 </script>
 
 <Select
-	id="label-tags"
+	{id}
 	inputStyles="width:100%"
 	showChevron
 	multiple

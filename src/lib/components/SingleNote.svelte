@@ -4,15 +4,13 @@
 	import { storedData } from '$lib/useLocalStorage';
 	import { marked } from 'marked';
 	import { DeleteModal } from '$lib/components';
+	import type { Note } from '../../app';
 
-	export let singleNote;
-	let modalRef;
+	export let singleNote: Note | null = null;
+	let modalRef: HTMLDialogElement;
 
 	function handleDelete() {
-		storedData.update((currentData) => ({
-			...currentData,
-			NOTES: [...currentData.NOTES.filter((note) => note.value !== $page.params.id)]
-		}));
+		$storedData.NOTES = $storedData.NOTES.filter((note) => note.value !== $page.params.id);
 		goto('/');
 	}
 

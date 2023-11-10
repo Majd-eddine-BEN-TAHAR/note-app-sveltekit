@@ -1,32 +1,23 @@
 <script lang="ts">
-	import { NoteCard } from '$lib/components';
-	import TagsModal from '$lib/components/TagsModal.svelte';
+	import { NoteCard, TagsModal, NoteFilterForm, Nav } from '$lib/components';
 	import { storedData } from '$lib/useLocalStorage';
-	import type { Tag } from '../app';
-	import Select from 'svelte-select';
+	import type { Tag, Note } from '../app';
 
-	let selectedTags: Tag[] | undefined = [];
-	let notesWithTags = null;
 	let title: string = '';
-	let filtredNotes = [];
-	let modalRef;
-
-	function openModal() {
-		modalRef.showModal();
-	}
+	let selectedTags: Tag[] | null = [];
+	let notesWithTags: Note[] | null = [];
+	let filtredNotes: Note[] | null = [];
+	let modalRef: HTMLDialogElement;
 
 	$: filtredNotes = notesWithTags;
 	$: title, handleFilter();
 	$: selectedTags, handleFilter();
 
-	$: {
-		notesWithTags = $storedData.NOTES.map((note: any) => ({
-			...note,
-			tags: $storedData.TAGS.filter((tag: any) => note.tagIds?.includes(tag.value))
-		}));
-	}
+	$: notesWithTags = $storedData.NOTES.map((note: Note) => ({
+		...note,
+		tags: $storedData.TAGS.filter((tag) => note.tagIds?.includes(tag.value))
+	}));
 
-	function onSubmit() {}
 	function handleFilter() {
 		filtredNotes = notesWithTags.filter((note) => {
 			return (
@@ -42,55 +33,12 @@
 <svelte:head>
 	<title>Notes App</title>
 </svelte:head>
+
 <TagsModal bind:modalRef />
-<nav class="flex items-center justify-between">
-	<h1 class="text-6xl">Notes</h1>
-	<div>
-		<a href="/new" class="btn btn-primary">Create</a>
-		<button class="btn btn-secondary" on:click={openModal}>Edit Tags</button>
-	</div>
-</nav>
+<Nav {modalRef} />
 <hr />
 
-<form on:submit|preventDefault={onSubmit} class="flex flex-col items-center w-full">
-	<div class="flex gap-4 w-full">
-		<div class="form-control w-full">
-			<label class="label" for="title">
-				<span class="label-text">Title</span>
-			</label>
-			<input
-				id="title"
-				type="text"
-				placeholder="Type here"
-				class="input input-bordered input-primary w-full"
-				required
-				bind:value={title}
-			/>
-			<!-- h-full -->
-		</div>
-		<div class="form-control w-full">
-			<label class="label" for="label-tags">
-				<span class="label-text">Tags</span>
-			</label>
-			<div class="input input-bordered input-primary w-full h-full px-0">
-				<Select
-					id="label-tags"
-					inputStyles="width:100%"
-					showChevron
-					multiple
-					items={$storedData.TAGS}
-					bind:value={selectedTags}
-					on:change={handleFilter}
-					on:clear={handleFilter}
-				>
-					<div slot="item" let:item>
-						{item.label}
-					</div>
-				</Select>
-			</div>
-		</div>
-	</div>
-</form>
+<NoteFilterForm bind:title bind:selectedTags {handleFilter} />
 
 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2">
 	{#each filtredNotes as note}

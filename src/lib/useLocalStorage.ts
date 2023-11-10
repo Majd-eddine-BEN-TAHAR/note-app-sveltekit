@@ -1,6 +1,12 @@
 import { persisted } from 'svelte-persisted-store';
+import type { Note, Tag } from '../app';
 
-export const storedData = persisted('storedData', {
+interface StoredData {
+	NOTES: Note[];
+	TAGS: Tag[];
+}
+
+export const storedData = persisted<StoredData>('storedData', {
 	NOTES: [],
 	TAGS: []
 });
