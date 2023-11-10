@@ -17,7 +17,7 @@
 			<input
 				id="title"
 				type="text"
-				placeholder="Type here"
+				placeholder="Type to filter"
 				class="input input-bordered input-primary w-full"
 				required
 				bind:value={title}
@@ -38,6 +38,7 @@
 					bind:value={selectedTags}
 					on:change={handleFilter}
 					on:clear={handleFilter}
+					placeholder="Filter by tags"
 				>
 					<div slot="item" let:item>
 						{item.label}
