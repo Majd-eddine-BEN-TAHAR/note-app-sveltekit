@@ -1,6 +1,7 @@
 <script>
 	import { NoteCard, TagsModal, NoteFilterForm, Nav } from '$lib/components';
 	import { storedData } from '$lib/useLocalStorage.js';
+	import Spinner from '../lib/components/Spinner.svelte';
 
 	let title = '';
 	let selectedTags = [];
@@ -40,7 +41,11 @@
 <NoteFilterForm bind:title bind:selectedTags {handleFilter} />
 
 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2">
-	{#each filtredNotes as note}
-		<NoteCard {note} />
-	{/each}
+	{#if notesWithTags.length === 0}
+		<Spinner />
+	{:else}
+		{#each filtredNotes as note}
+			<NoteCard {note} />
+		{/each}
+	{/if}
 </div>

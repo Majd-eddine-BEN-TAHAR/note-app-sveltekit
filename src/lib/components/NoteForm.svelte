@@ -45,10 +45,6 @@
 				tagIds: tags?.map((tag) => tag.value) || []
 			};
 		}
-
-		$storedData.NOTES = $storedData.NOTES.map((note) =>
-			note.value === $page.params.id ? $storedData.NOTES[noteToEditIndex] : note
-		);
 	}
 </script>
 
